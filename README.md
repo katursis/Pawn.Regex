@@ -1,6 +1,6 @@
 # Pawn.Regex
-Pawn.Regex - it is a plugin that allows you to work with regular expressions. 
-Why he is better than others? Because it allows you to get results of a parsing.
+Pawn.Regex - a plugin that allows you to work with regular expressions.
+Why is it better than others? Because it provides you with results of a parsing.
 
 ## Natives
 ```pawn
