@@ -1,7 +1,7 @@
 # Pawn.Regex
 Pawn.Regex - a plugin that allows you to work with regular expressions.
 
-Why is it better than others? Because it provides you with results of a parsing.
+Why is it better than others? Because it gives you an opportunity to get results of parsing, not just true/false if matched.
 
 ## Natives
 ```pawn
