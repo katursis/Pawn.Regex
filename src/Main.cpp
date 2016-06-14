@@ -63,8 +63,6 @@ public:
 
 private:
 
-	using syntax_option = std::regex_constants::syntax_option_type;
-	using match_flag = std::regex_constants::match_flag_type;
 	using regex_ptr = std::shared_ptr<std::regex>;
 	using regex_set = std::unordered_set<regex_ptr>;
 	using match_results_ptr = std::shared_ptr<std::vector<std::string>>;
@@ -82,7 +80,7 @@ private:
 		{
 			try
 			{
-				syntax_option option{};
+				std::regex_constants::syntax_option_type option{};
 
 				auto flags = static_cast<E_REGEX_FLAG>(params[2]);
 				auto grammar = static_cast<E_REGEX_GRAMMAR>(params[3]);
@@ -91,33 +89,33 @@ private:
 				{
 					case REGEX_ECMASCRIPT:
 					default:
-						option = syntax_option::ECMAScript;
+						option = std::regex_constants::ECMAScript;
 						break;
 					case REGEX_BASIC:
-						option = syntax_option::basic;
+						option = std::regex_constants::basic;
 						break;
 					case REGEX_EXTENDED:
-						option = syntax_option::extended;
+						option = std::regex_constants::extended;
 						break;
 					case REGEX_AWK:
-						option = syntax_option::awk;
+						option = std::regex_constants::awk;
 						break;
 					case REGEX_GREP:
-						option = syntax_option::grep;
+						option = std::regex_constants::grep;
 						break;
 					case REGEX_EGREP:
-						option = syntax_option::egrep;
+						option = std::regex_constants::egrep;
 						break;
 				}
 
 				if (flags & REGEX_ICASE)
-					option |= syntax_option::icase;
+					option |= std::regex_constants::icase;
 				if (flags & REGEX_NOSUBS)
-					option |= syntax_option::nosubs;
+					option |= std::regex_constants::nosubs;
 				if (flags & REGEX_OPTIMIZE)
-					option |= syntax_option::optimize;
+					option |= std::regex_constants::optimize;
 				if (flags & REGEX_COLLATE)
-					option |= syntax_option::collate;
+					option |= std::regex_constants::collate;
 
 				auto regex = std::make_shared<std::regex>(pattern.get(), option);
 
@@ -183,7 +181,7 @@ private:
 			{
 				try
 				{
-					match_flag flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[3]));
+					auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[3]));
 
 					return static_cast<cell>(std::regex_match(str.get(), *regex, flag));
 				}
@@ -221,7 +219,7 @@ private:
 				{
 					auto m = std::make_shared<std::vector<std::string>>();
 
-					match_flag flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[4]));
+					auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[4]));
 
 					std::cmatch results;
 
@@ -278,7 +276,7 @@ private:
 
 					auto startpos = static_cast<size_t>(params[5]);
 
-					match_flag flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[6]));
+					auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[6]));
 
 					std::cmatch results;
 
@@ -336,7 +334,7 @@ private:
 			{
 				try
 				{
-					match_flag flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[5]));
+					auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[5]));
 
 					auto size = static_cast<size_t>(params[6]);
 
@@ -450,34 +448,34 @@ private:
 		return nullptr;
 	}
 
-	static inline match_flag get_match_flag(E_MATCH_FLAG flags)
+	static inline std::regex_constants::match_flag_type get_match_flag(E_MATCH_FLAG flags)
 	{
-		match_flag flag{};
+		std::regex_constants::match_flag_type flag{};
 
 		if (flags & MATCH_DEFAULT)
-			flag |= match_flag::match_default;
+			flag |= std::regex_constants::match_default;
 		if (flags & MATCH_NOT_BOL)
-			flag |= match_flag::match_not_bol;
+			flag |= std::regex_constants::match_not_bol;
 		if (flags & MATCH_NOT_EOL)
-			flag |= match_flag::match_not_eol;
+			flag |= std::regex_constants::match_not_eol;
 		if (flags & MATCH_NOT_BOW)
-			flag |= match_flag::match_not_bow;
+			flag |= std::regex_constants::match_not_bow;
 		if (flags & MATCH_NOT_EOW)
-			flag |= match_flag::match_not_eow;
+			flag |= std::regex_constants::match_not_eow;
 		if (flags & MATCH_ANY)
-			flag |= match_flag::match_any;
+			flag |= std::regex_constants::match_any;
 		if (flags & MATCH_NOT_NULL)
-			flag |= match_flag::match_not_null;
+			flag |= std::regex_constants::match_not_null;
 		if (flags & MATCH_CONTINUOUS)
-			flag |= match_flag::match_continuous;
+			flag |= std::regex_constants::match_continuous;
 		if (flags & MATCH_PREV_AVAIL)
-			flag |= match_flag::match_prev_avail;
+			flag |= std::regex_constants::match_prev_avail;
 		if (flags & MATCH_FORMAT_SED)
-			flag |= match_flag::format_sed;
+			flag |= std::regex_constants::format_sed;
 		if (flags & MATCH_FORMAT_NO_COPY)
-			flag |= match_flag::format_no_copy;
+			flag |= std::regex_constants::format_no_copy;
 		if (flags & MATCH_FORMAT_FIRST_ONLY)
-			flag |= match_flag::format_first_only;
+			flag |= std::regex_constants::format_first_only;
 
 		return flag;
 	}
