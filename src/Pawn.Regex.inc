@@ -7,7 +7,7 @@
 	#define _pawnregex_included	
 #endif
 
-#define PAWNREGEX_INCLUDE_VERSION 10
+#define PAWNREGEX_INCLUDE_VERSION 11
 
 enum E_REGEX_GRAMMAR
 {
@@ -58,6 +58,6 @@ enum E_MATCH_FLAG
 	native regex_search(const str[], regex:r, &match_results:m, &pos, startpos = 0, E_MATCH_FLAG:flags = MATCH_DEFAULT);
 	native regex_replace(const str[], regex:r, const fmt[], dest[], E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
 
-	native match_get_group(match_results:m, index, dest[], size = sizeof dest);
+	native match_get_group(match_results:m, index, dest[], &length, size = sizeof dest);
 	native match_free(&match_results:m);
 #endif
