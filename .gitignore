@@ -1,3 +1,6 @@
 .vs/
+.vscode/
 Release/
 Debug/
+*.so
+*.gch
