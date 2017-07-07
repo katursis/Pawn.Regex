@@ -196,9 +196,11 @@ private:
 
 			const auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[4]));
 
-			std::cmatch results;
+			const std::string s(str.get());
 
-			if (std::regex_match(str.get(), results, *regex, flag)) {
+			std::smatch results;
+
+			if (std::regex_match(s, results, *regex, flag)) {
 				for (auto &result : results) {
 					m->push_back(result.str());
 				}
@@ -234,8 +236,6 @@ private:
 			return 0;
 		}
 
-		const std::string s(str.get());
-
 		const auto regex = get_regex(params[2]);
 
 		if (!regex) {
@@ -251,11 +251,15 @@ private:
 
 			const auto startpos = static_cast<size_t>(params[5]);
 
+			std::string s(str.get());
+
+			s = s.substr(startpos);
+
 			const auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[6]));
 
-			std::cmatch results;
+			std::smatch results;
 
-			if (std::regex_search(s.substr(startpos).c_str(), results, *regex, flag)) {
+			if (std::regex_search(s, results, *regex, flag)) {
 				for (auto &result : results) {
 					m->push_back(result.str());
 				}
