@@ -1,6 +1,7 @@
-#include "SDK/amx/amx.h"
+﻿#include "SDK/amx/amx.h"
 #include "SDK/plugincommon.h"
 
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 #include <memory>
@@ -63,7 +64,6 @@ public:
 	}
 
 private:
-
 	using Regex = std::shared_ptr<std::regex>;
 	using RegexSet = std::unordered_set<Regex>;
 	using MatchResults = std::shared_ptr<std::vector<std::string>>;
@@ -420,69 +420,62 @@ private:
 	}
 
 	static inline std::regex_constants::syntax_option_type get_regex_flag(E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar) {
-		std::regex_constants::syntax_option_type flag{};
+		const static std::unordered_map<E_REGEX_GRAMMAR, std::regex_constants::syntax_option_type> grammar_map = {
+			{REGEX_ECMASCRIPT, std::regex_constants::ECMAScript},
+			{REGEX_BASIC, std::regex_constants::basic},
+			{REGEX_EXTENDED, std::regex_constants::extended},
+			{REGEX_AWK, std::regex_constants::awk},
+			{REGEX_GREP, std::regex_constants::grep},
+			{REGEX_EGREP, std::regex_constants::egrep},
+		};
 
-		switch (grammar) {
-			case REGEX_ECMASCRIPT:
-			default:
-				flag = std::regex_constants::ECMAScript;
-				break;
-			case REGEX_BASIC:
-				flag = std::regex_constants::basic;
-				break;
-			case REGEX_EXTENDED:
-				flag = std::regex_constants::extended;
-				break;
-			case REGEX_AWK:
-				flag = std::regex_constants::awk;
-				break;
-			case REGEX_GREP:
-				flag = std::regex_constants::grep;
-				break;
-			case REGEX_EGREP:
-				flag = std::regex_constants::egrep;
-				break;
+		const static std::unordered_map<E_REGEX_FLAG, std::regex_constants::syntax_option_type> syntax_option_map = {
+			{REGEX_ICASE, std::regex_constants::icase},
+			{REGEX_NOSUBS, std::regex_constants::nosubs},
+			{REGEX_OPTIMIZE, std::regex_constants::optimize},
+			{REGEX_COLLATE, std::regex_constants::collate},
+		};
+
+		std::regex_constants::syntax_option_type flag{std::regex_constants::ECMAScript};
+
+		const auto &iter = grammar_map.find(grammar);
+
+		if (iter != grammar_map.end()) {
+			flag = iter->second;
 		}
 
-		if (flags & REGEX_ICASE)
-			flag |= std::regex_constants::icase;
-		if (flags & REGEX_NOSUBS)
-			flag |= std::regex_constants::nosubs;
-		if (flags & REGEX_OPTIMIZE)
-			flag |= std::regex_constants::optimize;
-		if (flags & REGEX_COLLATE)
-			flag |= std::regex_constants::collate;
+		for (const auto &item : syntax_option_map) {
+			if (flags & item.first) {
+				flag |= item.second;
+			}
+		}
 
 		return flag;
 	}
 
 	static inline std::regex_constants::match_flag_type get_match_flag(E_MATCH_FLAG flags) {
+		const static std::unordered_map<E_MATCH_FLAG, std::regex_constants::match_flag_type> match_flag_map = {
+			{MATCH_DEFAULT, std::regex_constants::match_default},
+			{MATCH_NOT_BOL, std::regex_constants::match_not_bol},
+			{MATCH_NOT_EOL, std::regex_constants::match_not_eol},
+			{MATCH_NOT_BOW, std::regex_constants::match_not_bow},
+			{MATCH_NOT_EOW, std::regex_constants::match_not_eow},
+			{MATCH_ANY, std::regex_constants::match_any},
+			{MATCH_NOT_NULL, std::regex_constants::match_not_null},
+			{MATCH_CONTINUOUS, std::regex_constants::match_continuous},
+			{MATCH_PREV_AVAIL, std::regex_constants::match_prev_avail},
+			{MATCH_FORMAT_SED, std::regex_constants::format_sed},
+			{MATCH_FORMAT_NO_COPY, std::regex_constants::format_no_copy},
+			{MATCH_FORMAT_FIRST_ONLY, std::regex_constants::format_first_only},
+		};
+
 		std::regex_constants::match_flag_type flag{};
 
-		if (flags & MATCH_DEFAULT)
-			flag |= std::regex_constants::match_default;
-		if (flags & MATCH_NOT_BOL)
-			flag |= std::regex_constants::match_not_bol;
-		if (flags & MATCH_NOT_EOL)
-			flag |= std::regex_constants::match_not_eol;
-		if (flags & MATCH_NOT_BOW)
-			flag |= std::regex_constants::match_not_bow;
-		if (flags & MATCH_NOT_EOW)
-			flag |= std::regex_constants::match_not_eow;
-		if (flags & MATCH_ANY)
-			flag |= std::regex_constants::match_any;
-		if (flags & MATCH_NOT_NULL)
-			flag |= std::regex_constants::match_not_null;
-		if (flags & MATCH_CONTINUOUS)
-			flag |= std::regex_constants::match_continuous;
-		if (flags & MATCH_PREV_AVAIL)
-			flag |= std::regex_constants::match_prev_avail;
-		if (flags & MATCH_FORMAT_SED)
-			flag |= std::regex_constants::format_sed;
-		if (flags & MATCH_FORMAT_NO_COPY)
-			flag |= std::regex_constants::format_no_copy;
-		if (flags & MATCH_FORMAT_FIRST_ONLY)
-			flag |= std::regex_constants::format_first_only;
+		for (const auto &item : match_flag_map) {
+			if (flags & item.first) {
+				flag |= item.second;
+			}
+		}
 
 		return flag;
 	}
