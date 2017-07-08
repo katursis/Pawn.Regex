@@ -23,6 +23,8 @@ public:
 		*kPublicVarName = "_pawnregex_version";
 
 	static bool Load(void) {
+		std::locale::global(_locale);
+
 		logprintf("%s plugin v%s by urShadow loaded", kName, kVersion);
 
 		return true;
@@ -525,10 +527,12 @@ private:
 
 	static RegexSet _regex_set;
 	static MatchResultsSet _match_results_set;
+	static std::locale _locale;
 };
 
 Plugin::RegexSet Plugin::_regex_set;
 Plugin::MatchResultsSet Plugin::_match_results_set;
+std::locale Plugin::_locale;
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 	return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
