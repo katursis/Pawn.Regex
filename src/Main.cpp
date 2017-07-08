@@ -39,16 +39,16 @@ public:
 	static void AmxLoad(AMX *amx) {
 		const static std::vector<AMX_NATIVE_INFO> native_vec =
 		{
-			{"regex_new", &n_regex_new},
-			{"regex_delete", &n_regex_delete},
+			{ "regex_new", &n_regex_new },
+			{ "regex_delete", &n_regex_delete },
 
-			{"regex_check", &n_regex_check},
-			{"regex_match", &n_regex_match},
-			{"regex_search", &n_regex_search},
-			{"regex_replace", &n_regex_replace},
+			{ "regex_check", &n_regex_check },
+			{ "regex_match", &n_regex_match },
+			{ "regex_search", &n_regex_search },
+			{ "regex_replace", &n_regex_replace },
 
-			{"match_get_group", &n_match_get_group},
-			{"match_free", &n_match_free}
+			{ "match_get_group", &n_match_get_group },
+			{ "match_free", &n_match_free }
 		};
 
 		cell addr{}, *phys_addr{};
@@ -421,22 +421,22 @@ private:
 
 	static inline std::regex_constants::syntax_option_type get_regex_flag(E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar) {
 		const static std::unordered_map<E_REGEX_GRAMMAR, std::regex_constants::syntax_option_type> grammar_map = {
-			{REGEX_ECMASCRIPT, std::regex_constants::ECMAScript},
-			{REGEX_BASIC, std::regex_constants::basic},
-			{REGEX_EXTENDED, std::regex_constants::extended},
-			{REGEX_AWK, std::regex_constants::awk},
-			{REGEX_GREP, std::regex_constants::grep},
-			{REGEX_EGREP, std::regex_constants::egrep},
+			{ REGEX_ECMASCRIPT, std::regex_constants::ECMAScript },
+			{ REGEX_BASIC, std::regex_constants::basic },
+			{ REGEX_EXTENDED, std::regex_constants::extended },
+			{ REGEX_AWK, std::regex_constants::awk },
+			{ REGEX_GREP, std::regex_constants::grep },
+			{ REGEX_EGREP, std::regex_constants::egrep },
 		};
 
 		const static std::unordered_map<E_REGEX_FLAG, std::regex_constants::syntax_option_type> syntax_option_map = {
-			{REGEX_ICASE, std::regex_constants::icase},
-			{REGEX_NOSUBS, std::regex_constants::nosubs},
-			{REGEX_OPTIMIZE, std::regex_constants::optimize},
-			{REGEX_COLLATE, std::regex_constants::collate},
+			{ REGEX_ICASE, std::regex_constants::icase },
+			{ REGEX_NOSUBS, std::regex_constants::nosubs },
+			{ REGEX_OPTIMIZE, std::regex_constants::optimize },
+			{ REGEX_COLLATE, std::regex_constants::collate },
 		};
 
-		std::regex_constants::syntax_option_type flag{std::regex_constants::ECMAScript};
+		std::regex_constants::syntax_option_type flag{ std::regex_constants::ECMAScript };
 
 		const auto &iter = grammar_map.find(grammar);
 
@@ -455,18 +455,18 @@ private:
 
 	static inline std::regex_constants::match_flag_type get_match_flag(E_MATCH_FLAG flags) {
 		const static std::unordered_map<E_MATCH_FLAG, std::regex_constants::match_flag_type> match_flag_map = {
-			{MATCH_DEFAULT, std::regex_constants::match_default},
-			{MATCH_NOT_BOL, std::regex_constants::match_not_bol},
-			{MATCH_NOT_EOL, std::regex_constants::match_not_eol},
-			{MATCH_NOT_BOW, std::regex_constants::match_not_bow},
-			{MATCH_NOT_EOW, std::regex_constants::match_not_eow},
-			{MATCH_ANY, std::regex_constants::match_any},
-			{MATCH_NOT_NULL, std::regex_constants::match_not_null},
-			{MATCH_CONTINUOUS, std::regex_constants::match_continuous},
-			{MATCH_PREV_AVAIL, std::regex_constants::match_prev_avail},
-			{MATCH_FORMAT_SED, std::regex_constants::format_sed},
-			{MATCH_FORMAT_NO_COPY, std::regex_constants::format_no_copy},
-			{MATCH_FORMAT_FIRST_ONLY, std::regex_constants::format_first_only},
+			{ MATCH_DEFAULT, std::regex_constants::match_default },
+			{ MATCH_NOT_BOL, std::regex_constants::match_not_bol },
+			{ MATCH_NOT_EOL, std::regex_constants::match_not_eol },
+			{ MATCH_NOT_BOW, std::regex_constants::match_not_bow },
+			{ MATCH_NOT_EOW, std::regex_constants::match_not_eow },
+			{ MATCH_ANY, std::regex_constants::match_any },
+			{ MATCH_NOT_NULL, std::regex_constants::match_not_null },
+			{ MATCH_CONTINUOUS, std::regex_constants::match_continuous },
+			{ MATCH_PREV_AVAIL, std::regex_constants::match_prev_avail },
+			{ MATCH_FORMAT_SED, std::regex_constants::format_sed },
+			{ MATCH_FORMAT_NO_COPY, std::regex_constants::format_no_copy },
+			{ MATCH_FORMAT_FIRST_ONLY, std::regex_constants::format_first_only },
 		};
 
 		std::regex_constants::match_flag_type flag{};
