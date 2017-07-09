@@ -39,8 +39,7 @@ public:
 	}
 
 	static void AmxLoad(AMX *amx) {
-		const static std::vector<AMX_NATIVE_INFO> native_vec =
-		{
+		const std::vector<AMX_NATIVE_INFO> native_vec{
 			{ "regex_new", &n_regex_new },
 			{ "regex_delete", &n_regex_delete },
 
