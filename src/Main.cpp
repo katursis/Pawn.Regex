@@ -397,7 +397,7 @@ private:
 	}
 
 	static inline Regex get_regex(cell ptr) {
-		auto iter = std::find_if(_regex_set.begin(), _regex_set.end(), [ptr](const Regex& p) {
+		auto iter = std::find_if(_regex_set.begin(), _regex_set.end(), [ptr](const Regex &p) {
 			return p.get() == reinterpret_cast<void *>(ptr);
 		});
 
@@ -409,7 +409,7 @@ private:
 	}
 
 	static inline MatchResults get_match_results(cell ptr) {
-		auto iter = std::find_if(_match_results_set.begin(), _match_results_set.end(), [ptr](const MatchResults& p) {
+		auto iter = std::find_if(_match_results_set.begin(), _match_results_set.end(), [ptr](const MatchResults &p) {
 			return p.get() == reinterpret_cast<void *>(ptr);
 		});
 
@@ -515,7 +515,7 @@ private:
 
 		cell *start = dest;
 
-		while (max--&&*source) {
+		while (max-- && *source) {
 			*dest++ = static_cast<cell>(*source++);
 		}
 
