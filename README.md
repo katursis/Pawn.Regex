@@ -82,7 +82,9 @@ stock SplitAndPrint(str[])
             new word[128], length;
 
             if (!match_get_group(m, 0, word, length))
-                break;
+	    {
+	        break;
+	    }
 
             printf("word: %s", word);
 
