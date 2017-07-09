@@ -7,7 +7,7 @@
 	#define _pawnregex_included	
 #endif
 
-#define PAWNREGEX_INCLUDE_VERSION 11
+#define PAWNREGEX_INCLUDE_VERSION 111
 
 enum E_REGEX_GRAMMAR
 {
