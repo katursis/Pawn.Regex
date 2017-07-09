@@ -421,7 +421,7 @@ private:
 	}
 
 	static inline std::regex_constants::syntax_option_type get_regex_flag(E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar) {
-		const static std::unordered_map<E_REGEX_GRAMMAR, std::regex_constants::syntax_option_type> grammar_map = {
+		const static std::unordered_map<std::size_t, std::regex_constants::syntax_option_type> grammar_map = {
 			{ REGEX_ECMASCRIPT, std::regex_constants::ECMAScript },
 			{ REGEX_BASIC, std::regex_constants::basic },
 			{ REGEX_EXTENDED, std::regex_constants::extended },
@@ -430,7 +430,7 @@ private:
 			{ REGEX_EGREP, std::regex_constants::egrep },
 		};
 
-		const static std::unordered_map<E_REGEX_FLAG, std::regex_constants::syntax_option_type> syntax_option_map = {
+		const static std::unordered_map<std::size_t, std::regex_constants::syntax_option_type> syntax_option_map = {
 			{ REGEX_ICASE, std::regex_constants::icase },
 			{ REGEX_NOSUBS, std::regex_constants::nosubs },
 			{ REGEX_OPTIMIZE, std::regex_constants::optimize },
@@ -455,7 +455,7 @@ private:
 	}
 
 	static inline std::regex_constants::match_flag_type get_match_flag(E_MATCH_FLAG flags) {
-		const static std::unordered_map<E_MATCH_FLAG, std::regex_constants::match_flag_type> match_flag_map = {
+		const static std::unordered_map<std::size_t, std::regex_constants::match_flag_type> match_flag_map = {
 			{ MATCH_DEFAULT, std::regex_constants::match_default },
 			{ MATCH_NOT_BOL, std::regex_constants::match_not_bol },
 			{ MATCH_NOT_EOL, std::regex_constants::match_not_eol },
