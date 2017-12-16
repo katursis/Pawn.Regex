@@ -7,7 +7,7 @@
 	#define _pawnregex_included	
 #endif
 
-#define PAWNREGEX_INCLUDE_VERSION 111
+#define PAWNREGEX_INCLUDE_VERSION 112
 
 enum E_REGEX_GRAMMAR
 {
@@ -45,19 +45,38 @@ enum E_MATCH_FLAG
 							        // are not copied when replacing matches.
 	MATCH_FORMAT_FIRST_ONLY = 1 << 11, // Only the first occurrence of a regular expression is replaced.
 };
-
 #if !defined __cplusplus
 	public _pawnregex_version = PAWNREGEX_INCLUDE_VERSION;
 	#pragma unused _pawnregex_version
 
+	native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT, E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT) = regex_new;
+	native Regex_Delete(&Regex:r) = regex_delete;
+
+	native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT) = regex_check;
+	native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags = MATCH_DEFAULT) = regex_match;
+	native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos = 0, E_MATCH_FLAG:flags = MATCH_DEFAULT) = regex_search;
+	native Regex_Replace(const str[], Regex:r, const fmt[], dest[], E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest) = regex_replace;
+
+	native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof dest) = match_get_group;
+	native Match_Free(&RegexMatch:m) = match_free;
+
+	#pragma deprecated
 	native regex:regex_new(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT, E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
+	#pragma deprecated
 	native regex_delete(&regex:r);
 
+	#pragma deprecated
 	native regex_check(const str[], regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+	#pragma deprecated
 	native regex_match(const str[], regex:r, &match_results:m, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+	#pragma deprecated
 	native regex_search(const str[], regex:r, &match_results:m, &pos, startpos = 0, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+	#pragma deprecated
 	native regex_replace(const str[], regex:r, const fmt[], dest[], E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
 
+	#pragma deprecated
 	native match_get_group(match_results:m, index, dest[], &length, size = sizeof dest);
+	#pragma deprecated
 	native match_free(&match_results:m);
 #endif
+
