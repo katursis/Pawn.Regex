@@ -35,35 +35,22 @@ stock IsRpNickname(nickname[])
 public OnPlayerCommandText(playerid, cmdtext[])
 {
     new
-        regex:r_with_param = regex_new("\\/\\s*(\\w{1,15})\\s+(.+)"),
+        regex:r = regex_new("^\\/([\\w]+)\\s*(.+?)?\\s*$"),
         match_results:m,
         cmd[16], params[256],
-		cmd_length, params_length;
+        cmd_length, params_length;
 
-    if (regex_match(cmdtext, r_with_param, m))
+    if (regex_match(cmdtext, r, m))
     {
         match_get_group(m, 1, cmd, cmd_length);
         match_get_group(m, 2, params, params_length);
 
         match_free(m);
     }
-    else
-    {
-        new regex:r = regex_new("\\/\\s*(\\w{1,15})\\s*");
-
-        if (regex_match(cmdtext, r, m))
-        {
-            match_get_group(m, 1, cmd, cmd_length);
-
-            match_free(m);
-        }
-
-        regex_delete(r);
-    }
 
     printf("cmd '%s' (%d), params '%s' (%d)", cmd, cmd_length, params, params_length);
 
-    regex_delete(r_with_param);
+    regex_delete(r);
 
     return 1;
 }
@@ -82,9 +69,9 @@ stock SplitAndPrint(str[])
             new word[128], length;
 
             if (!match_get_group(m, 0, word, length))
-	    {
-	        break;
-	    }
+            {
+                break;
+            }
 
             printf("word: %s", word);
 
@@ -122,8 +109,6 @@ main()
     OnPlayerCommandText(-1, "/ban 42");
     OnPlayerCommandText(-1, "/kill");
 
-    printf("%d %d",
-                    IsRpNickname("Your_Shadow"),
-                    IsRpNickname("urShadow"));
+    printf("%d %d", IsRpNickname("Your_Shadow"), IsRpNickname("urShadow"));
 }
 ```
