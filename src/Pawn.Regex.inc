@@ -79,4 +79,3 @@ enum E_MATCH_FLAG
 	#pragma deprecated
 	native match_free(&match_results:m);
 #endif
-
