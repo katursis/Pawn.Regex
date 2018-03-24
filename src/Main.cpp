@@ -9,7 +9,7 @@
 
 #include "Pawn.Regex.inc"
 
-using logprintf_t = void(*)(char* format, ...);
+using logprintf_t = void(*)(const char *format, ...);
 
 logprintf_t logprintf;
 
@@ -19,7 +19,7 @@ class Plugin {
 public:
 	static constexpr char
 		*kName = "Pawn.Regex",
-		*kVersion = "1.1.1",
+		*kVersion = "1.1.2",
 		*kPublicVarName = "_pawnregex_version";
 
 	static bool Load(void) {
