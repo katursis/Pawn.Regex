@@ -1,20 +1,20 @@
 # Pawn.Regex
-Pawn.Regex - a plugin that allows you to work with regular expressions.
+Pawn.Regex is a plugin that allows you to work with regular expressions.
 
-Why is it better than others? Because it gives you an opportunity to get results of parsing, not just true/false if there is a match.
+Why is it better than others plugins? Because it gives you an opportunity to get match results.
 
 ## Natives
 ```pawn
-native regex:regex_new(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT, E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
-native regex_delete(&regex:r);
+native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT, E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
+native Regex_Delete(&Regex:r);
 
-native regex_check(const str[], regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
-native regex_match(const str[], regex:r, &match_results:m, E_MATCH_FLAG:flags = MATCH_DEFAULT);
-native regex_search(const str[], regex:r, &match_results:m, &pos, startpos = 0, E_MATCH_FLAG:flags = MATCH_DEFAULT);
-native regex_replace(const str[], regex:r, const fmt[], dest[], E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
+native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos = 0, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+native Regex_Replace(const str[], Regex:r, const fmt[], dest[], E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
 
-native match_get_group(match_results:m, index, dest[], &length, size = sizeof dest);
-native match_free(&match_results:m);
+native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof dest);
+native Match_Free(&RegexMatch:m);
 ```
 
 ## Examples
@@ -23,11 +23,11 @@ native match_free(&match_results:m);
 
 stock IsRpNickname(nickname[])
 {
-    new regex:r = regex_new("[A-Z][a-z]+_[A-Z][a-z]+");
+    new Regex:r = Regex_New("[A-Z][a-z]+_[A-Z][a-z]+");
 
-    new check = regex_check(nickname, r);
+    new check = Regex_Check(nickname, r);
 
-    regex_delete(r);
+    Regex_Delete(r);
 
     return check;
 }
@@ -35,40 +35,40 @@ stock IsRpNickname(nickname[])
 public OnPlayerCommandText(playerid, cmdtext[])
 {
     new
-        regex:r = regex_new("^\\/([\\w]+)\\s*(.+?)?\\s*$"),
-        match_results:m,
+        Regex:r = Regex_New("^\\/([\\w]+)\\s*(.+?)?\\s*$"),
+        RegexMatch:m,
         cmd[16], params[256],
         cmd_length, params_length;
 
-    if (regex_match(cmdtext, r, m))
+    if (Regex_Match(cmdtext, r, m))
     {
-        match_get_group(m, 1, cmd, cmd_length);
-        match_get_group(m, 2, params, params_length);
+        Match_GetGroup(m, 1, cmd, cmd_length);
+        Match_GetGroup(m, 2, params, params_length);
 
-        match_free(m);
+        Match_Free(m);
     }
 
     printf("cmd '%s' (%d), params '%s' (%d)", cmd, cmd_length, params, params_length);
 
-    regex_delete(r);
+    Regex_Delete(r);
 
     return 1;
 }
 
 stock SplitAndPrint(str[])
 {
-    new regex:r = regex_new("[^\\s]+");
+    new Regex:r = Regex_New("[^\\s]+");
 
     if (r)
     {
-        new match_results:m;
+        new RegexMatch:m;
         new startpos, pos;
 
-        while (regex_search(str, r, m, pos, startpos))
+        while (Regex_Search(str, r, m, pos, startpos))
         {
             new word[128], length;
 
-            if (!match_get_group(m, 0, word, length))
+            if (!Match_GetGroup(m, 0, word, length))
             {
                 break;
             }
@@ -77,22 +77,22 @@ stock SplitAndPrint(str[])
 
             startpos += pos + length;
 
-            match_free(m);
+            Match_Free(m);
         }
 
-        regex_delete(r);
+        Regex_Delete(r);
     }
 }
 
 stock ReplaceString(const str[], const regexp[], const fmt[], dest[], size = sizeof dest)
 {
-    new regex:r = regex_new(regexp);
+    new Regex:r = Regex_New(regexp);
 
     if (r)
     {
-        regex_replace(str, r, fmt, dest, MATCH_DEFAULT, size);
+        Regex_Replace(str, r, fmt, dest, MATCH_DEFAULT, size);
 
-        regex_delete(r);
+        Regex_Delete(r);
     }
 }
 
