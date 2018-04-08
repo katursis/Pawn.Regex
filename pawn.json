@@ -17,6 +17,6 @@
         }
     ],
     "runtime": {
-        "plugins": ["urShadow/pawnregex"]
+        "plugins": ["urShadow/Pawn.Regex"]
     }
 }
