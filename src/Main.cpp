@@ -22,7 +22,7 @@ public:
         *kVersion = "1.1.2",
         *kPublicVarName = "_pawnregex_version";
 
-    static bool Load(void) {
+    static bool Load() {
         std::locale::global(_locale);
 
         logprintf("%s plugin v%s by urShadow loaded", kName, kVersion);
@@ -30,7 +30,7 @@ public:
         return true;
     }
 
-    static void Unload(void) {
+    static void Unload() {
         _regex_set.clear();
 
         _match_results_set.clear();
