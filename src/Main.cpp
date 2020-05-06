@@ -319,7 +319,7 @@ private:
 
             const auto dest = std::regex_replace(str.get(), *regex, fmt.get(), flag);
 
-            set_amxstring(amx, params[4], dest.c_str(), size);
+            amx_SetString(&GetAmxParamRef(amx, params[4]), dest.c_str(), 0, 0, size);
 
             result = 1;
         } catch (const std::exception &e) {
@@ -352,7 +352,7 @@ private:
         try {
             const auto str = match_results->at(index);
 
-            set_amxstring(amx, params[3], str.c_str(), size);
+            amx_SetString(&GetAmxParamRef(amx, params[3]), str.c_str(), 0, 0, size);
 
             cell *addr{};
 
@@ -509,20 +509,14 @@ private:
         return true;
     }
 
-    static inline int set_amxstring(AMX *amx, cell amx_addr, const char *source, int max) {
-        cell *dest = reinterpret_cast<cell *>(
-            amx->base + static_cast<int>(reinterpret_cast<AMX_HEADER *>(amx->base)->dat + amx_addr)
-            );
+    static cell & GetAmxParamRef(AMX *amx, cell amx_addr) {
+        cell *phys_addr{};
 
-        cell *start = dest;
-
-        while (max-- && *source) {
-            *dest++ = static_cast<cell>(*source++);
+        if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
+            throw std::runtime_error{"invalid param"};
         }
 
-        *dest = 0;
-
-        return dest - start;
+        return *phys_addr;
     }
 
     static RegexSet _regex_set;
