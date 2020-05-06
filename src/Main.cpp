@@ -76,9 +76,9 @@ private:
             return 0;
         }
 
-        const std::unique_ptr<char[]> pattern(get_string(amx, params[1]));
+        const auto pattern(GetAmxString(amx, params[1]));
 
-        if (!pattern) {
+        if (!pattern.length()) {
             logprintf("[%s] %s: invalid pattern", kName, __FUNCTION__);
 
             return 0;
@@ -92,7 +92,7 @@ private:
         cell result{};
 
         try {
-            const auto regex = std::make_shared<std::regex>(pattern.get(), option);
+            const auto regex = std::make_shared<std::regex>(pattern.c_str(), option);
 
             _regex_set.insert(regex);
 
@@ -139,13 +139,7 @@ private:
             return 0;
         }
 
-        const std::unique_ptr<char[]> str(get_string(amx, params[1]));
-
-        if (!str) {
-            logprintf("[%s] %s: invalid str", kName, __FUNCTION__);
-
-            return 0;
-        }
+        const auto str(GetAmxString(amx, params[1]));
 
         const auto regex = get_regex(params[2]);
 
@@ -160,7 +154,7 @@ private:
         cell result{};
 
         try {
-            result = static_cast<cell>(std::regex_match(str.get(), *regex, flag));
+            result = static_cast<cell>(std::regex_match(str.c_str(), *regex, flag));
         } catch (const std::exception &e) {
             logprintf("[%s] %s: %s", kName, __FUNCTION__, e.what());
         }
@@ -174,13 +168,7 @@ private:
             return 0;
         }
 
-        const std::unique_ptr<char[]> str(get_string(amx, params[1]));
-
-        if (!str) {
-            logprintf("[%s] %s: invalid str", kName, __FUNCTION__);
-
-            return 0;
-        }
+        const auto str(GetAmxString(amx, params[1]));
 
         const auto regex = get_regex(params[2]);
 
@@ -197,11 +185,9 @@ private:
 
             const auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[4]));
 
-            const std::string s(str.get());
-
             std::smatch results;
 
-            if (std::regex_match(s, results, *regex, flag)) {
+            if (std::regex_match(str, results, *regex, flag)) {
                 for (auto &result : results) {
                     m->push_back(result.str());
                 }
@@ -229,13 +215,7 @@ private:
             return 0;
         }
 
-        const std::unique_ptr<char[]> str(get_string(amx, params[1]));
-
-        if (!str) {
-            logprintf("[%s] %s: invalid str", kName, __FUNCTION__);
-
-            return 0;
-        }
+        const auto str(GetAmxString(amx, params[1]));
 
         const auto regex = get_regex(params[2]);
 
@@ -252,9 +232,7 @@ private:
 
             const auto startpos = static_cast<size_t>(params[5]);
 
-            std::string s(str.get());
-
-            s = s.substr(startpos);
+            auto s = str.substr(startpos);
 
             const auto flag = get_match_flag(static_cast<E_MATCH_FLAG>(params[6]));
 
@@ -292,15 +270,7 @@ private:
             return 0;
         }
 
-        const std::unique_ptr<char[]> str(get_string(amx, params[1])),
-            fmt(get_string(amx, params[3])
-            );
-
-        if ((!str) || (!fmt)) {
-            logprintf("[%s] %s: invalid str or fmt", kName, __FUNCTION__);
-
-            return 0;
-        }
+        const auto str(GetAmxString(amx, params[1])), fmt(GetAmxString(amx, params[3]));
 
         const auto regex = get_regex(params[2]);
 
@@ -317,7 +287,7 @@ private:
 
             const auto size = static_cast<size_t>(params[6]);
 
-            const auto dest = std::regex_replace(str.get(), *regex, fmt.get(), flag);
+            const auto dest = std::regex_replace(str.c_str(), *regex, fmt.c_str(), flag);
 
             amx_SetString(&GetAmxParamRef(amx, params[4]), dest.c_str(), 0, 0, size);
 
@@ -482,21 +452,20 @@ private:
         return flag;
     }
 
-    static inline char *get_string(AMX *amx, cell amx_addr) {
+    static std::string GetAmxString(AMX *amx, cell amx_addr) {
         int len{};
         cell *addr{};
+        std::unique_ptr<char[]> str;
 
-        if (!amx_GetAddr(amx, amx_addr, &addr) && !amx_StrLen(addr, &len) && len) {
-            len++;
-
-            char *str = new (std::nothrow) char[len] {};
-
-            if (str && !amx_GetString(str, addr, 0, len)) {
-                return str;
-            }
+        if (
+            amx_GetAddr(amx, amx_addr, &addr) != AMX_ERR_NONE ||
+            amx_StrLen(addr, &len) != AMX_ERR_NONE ||
+            (str.reset(new char[++len]{}), amx_GetString(str.get(), addr, 0, len)) != AMX_ERR_NONE
+        ) {
+            throw std::runtime_error{"invalid amx string"};
         }
 
-        return nullptr;
+        return str.get();
     }
 
     static inline bool check_params(const char *native, int count, cell *params) {
