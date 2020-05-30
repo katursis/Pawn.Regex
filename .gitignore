@@ -1,9 +1,10 @@
-.vs/
 .vscode/
+.vs/
+bin/
 Release/
 Debug/
-*.so
+*.o
 *.gch
+*.so
+*.user
 .DS_Store
-.user
-
