@@ -1,7 +1,7 @@
 # Pawn.Regex
-Pawn.Regex is a plugin that allows you to work with regular expressions.
+🔎 Plugin that adds support for regular expressions in Pawn
 
-Why is it better than others plugins? Because it gives you an opportunity to get match results.
+Why is it better than others plugins? Because it gives you an opportunity to get match groups.
 
 ## Natives
 ```pawn
@@ -73,7 +73,7 @@ stock SplitAndPrint(str[])
                 break;
             }
 
-            printf("word: %s", word);
+            printf("word: %s, length: %d", word, length);
 
             startpos += pos + length;
 
@@ -98,9 +98,9 @@ stock ReplaceString(const str[], const regexp[], const fmt[], dest[], size = siz
 
 main()
 {
-    new str[128];
+    new str[256];
 
-    ReplaceString("Pawn.CMD", "CMD", "Regex", str);
+    ReplaceString("Regex.Pawn", "(.+)\\.(.+)", "$1.$2 => $2.$1", str);
 
     printf("%s", str);
 
@@ -109,6 +109,6 @@ main()
     OnPlayerCommandText(-1, "/ban 42");
     OnPlayerCommandText(-1, "/kill");
 
-    printf("%d %d", IsRpNickname("Your_Shadow"), IsRpNickname("urShadow"));
+    printf("%d %d", IsRpNickname("Firstname_Lastname"), IsRpNickname("urShadow"));
 }
 ```

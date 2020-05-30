@@ -1,0 +1,3 @@
+[submodule "lib/samp-ptl"]
+	path = lib/samp-ptl
+	url = https://github.com/urShadow/samp-ptl
