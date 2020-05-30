@@ -6,6 +6,21 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cell.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\natives.h" />
+    <ClInclude Include="src\plugin.h" />
+    <ClInclude Include="src\script.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cc" />
+    <ClCompile Include="src\natives.cc" />
+    <ClCompile Include="src\script.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Pawn.Regex.inc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{03E891D8-AA3A-4DA0-8638-D5511C302A9C}</ProjectGuid>
     <RootNamespace>pawnregex</RootNamespace>
@@ -41,6 +56,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>_USING_V110_SDK71_;SN_TARGET_PS2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>No</GenerateDebugInformation>
@@ -49,10 +65,6 @@
       <ModuleDefinitionFile>Plugin.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="lib\SDK\amxplugin.cpp" />
-    <ClCompile Include="src\Main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
