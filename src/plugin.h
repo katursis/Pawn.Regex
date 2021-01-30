@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016-2020 urShadow
+ * Copyright (c) 2016-2021 katursis
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,13 +43,13 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
     RegisterNative<Natives::Match_GetGroup>("Match_GetGroup");
     RegisterNative<Natives::Match_Free>("Match_Free");
 
-    Log("plugin v%s by urShadow loaded", VersionAsString().c_str());
+    Log("plugin v%s by katursis loaded", VersionAsString().c_str());
 
     return true;
   }
 
   void OnUnload() {
-    Log("plugin v%s by urShadow unloaded", VersionAsString().c_str());
+    Log("plugin v%s by katursis unloaded", VersionAsString().c_str());
   }
 };
 

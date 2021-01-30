@@ -1,5 +1,5 @@
 {
-    "user": "urShadow",
+    "user": "katursis",
     "repo": "Pawn.Regex",
     "include_path": "src",
     "resources": [
@@ -17,6 +17,6 @@
         }
     ],
     "runtime": {
-        "plugins": ["urShadow/Pawn.Regex"]
+        "plugins": ["katursis/Pawn.Regex"]
     }
 }

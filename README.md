@@ -109,6 +109,6 @@ main()
     OnPlayerCommandText(-1, "/ban 42");
     OnPlayerCommandText(-1, "/kill");
 
-    printf("%d %d", IsRpNickname("Firstname_Lastname"), IsRpNickname("urShadow"));
+    printf("%d %d", IsRpNickname("Firstname_Lastname"), IsRpNickname("katursis"));
 }
 ```
