@@ -25,7 +25,7 @@
 #ifndef PAWNREGEX_NATIVES_H_
 #define PAWNREGEX_NATIVES_H_
 
-namespace Natives {
+namespace natives {
 // native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
 // E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
 cell Regex_New(Script *script, std::string pattern, E_REGEX_FLAG flags,
@@ -61,5 +61,5 @@ cell Match_GetGroup(Script *script, MatchResultsPtr match_results, cell index,
 
 // native Match_Free(&RegexMatch:m);
 cell Match_Free(Script *script, cell *match_results);
-}  // namespace Natives
+}  // namespace natives
 #endif  // PAWNREGEX_NATIVES_H_

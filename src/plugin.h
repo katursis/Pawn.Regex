@@ -32,16 +32,16 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
   int Version() { return PAWNREGEX_VERSION; }
 
   bool OnLoad() {
-    RegisterNative<Natives::Regex_New>("Regex_New");
-    RegisterNative<Natives::Regex_Delete>("Regex_Delete");
+    RegisterNative<natives::Regex_New>("Regex_New");
+    RegisterNative<natives::Regex_Delete>("Regex_Delete");
 
-    RegisterNative<Natives::Regex_Check>("Regex_Check");
-    RegisterNative<Natives::Regex_Match>("Regex_Match");
-    RegisterNative<Natives::Regex_Search>("Regex_Search");
-    RegisterNative<Natives::Regex_Replace>("Regex_Replace");
+    RegisterNative<natives::Regex_Check>("Regex_Check");
+    RegisterNative<natives::Regex_Match>("Regex_Match");
+    RegisterNative<natives::Regex_Search>("Regex_Search");
+    RegisterNative<natives::Regex_Replace>("Regex_Replace");
 
-    RegisterNative<Natives::Match_GetGroup>("Match_GetGroup");
-    RegisterNative<Natives::Match_Free>("Match_Free");
+    RegisterNative<natives::Match_GetGroup>("Match_GetGroup");
+    RegisterNative<natives::Match_Free>("Match_Free");
 
     Log("plugin v%s by katursis loaded", VersionAsString().c_str());
 

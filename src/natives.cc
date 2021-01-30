@@ -26,13 +26,13 @@
 
 // native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
 // E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
-cell Natives::Regex_New(Script *script, std::string pattern, E_REGEX_FLAG flags,
+cell natives::Regex_New(Script *script, std::string pattern, E_REGEX_FLAG flags,
                         E_REGEX_GRAMMAR grammar) {
   return script->NewRegex(pattern, script->GetRegexFlag(flags, grammar));
 }
 
 // native Regex_Delete(&Regex:r);
-cell Natives::Regex_Delete(Script *script, cell *regex) {
+cell natives::Regex_Delete(Script *script, cell *regex) {
   script->DeleteRegex(*regex);
 
   *regex = 0;
@@ -41,14 +41,14 @@ cell Natives::Regex_Delete(Script *script, cell *regex) {
 }
 
 // native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
-cell Natives::Regex_Check(Script *script, std::string str, RegexPtr regex,
+cell natives::Regex_Check(Script *script, std::string str, RegexPtr regex,
                           E_MATCH_FLAG flags) {
   return std::regex_match(str, *regex, script->GetMatchFlag(flags)) ? 1 : 0;
 }
 
 // native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags =
 // MATCH_DEFAULT);
-cell Natives::Regex_Match(Script *script, std::string str, RegexPtr regex,
+cell natives::Regex_Match(Script *script, std::string str, RegexPtr regex,
                           cell *match_results, E_MATCH_FLAG flags) {
   std::smatch results;
   if (std::regex_match(str, results, *regex, script->GetMatchFlag(flags))) {
@@ -62,7 +62,7 @@ cell Natives::Regex_Match(Script *script, std::string str, RegexPtr regex,
 
 // native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos = 0,
 // E_MATCH_FLAG:flags = MATCH_DEFAULT);
-cell Natives::Regex_Search(Script *script, std::string str, RegexPtr regex,
+cell natives::Regex_Search(Script *script, std::string str, RegexPtr regex,
                            cell *match_results, cell *pos, cell startpos,
                            E_MATCH_FLAG flags) {
   str = str.substr(startpos);
@@ -81,7 +81,7 @@ cell Natives::Regex_Search(Script *script, std::string str, RegexPtr regex,
 
 // native Regex_Replace(const str[], Regex:r, const fmt[], dest[],
 // E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
-cell Natives::Regex_Replace(Script *script, std::string str, RegexPtr regex,
+cell natives::Regex_Replace(Script *script, std::string str, RegexPtr regex,
                             std::string fmt, cell *dest, E_MATCH_FLAG flags,
                             cell size) {
   const auto result =
@@ -94,7 +94,7 @@ cell Natives::Regex_Replace(Script *script, std::string str, RegexPtr regex,
 
 // native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof
 // dest);
-cell Natives::Match_GetGroup(Script *script, MatchResultsPtr match_results,
+cell natives::Match_GetGroup(Script *script, MatchResultsPtr match_results,
                              cell index, cell *dest, cell *length, cell size) {
   const auto str = match_results->at(index);
 
@@ -106,7 +106,7 @@ cell Natives::Match_GetGroup(Script *script, MatchResultsPtr match_results,
 }
 
 // native Match_Free(&RegexMatch:m);
-cell Natives::Match_Free(Script *script, cell *match_results) {
+cell natives::Match_Free(Script *script, cell *match_results) {
   script->DeleteMatchResults(*match_results);
 
   *match_results = 0;
