@@ -56,9 +56,10 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
         "\n"
         "    |--------------------------------------------------------------"
         "\n"
-        "    | Repository: https://github.com/katursis/Pawn.Regex"
+        "    | Repository: https://github.com/katursis/%s"
         "\n",
-        Name(), VersionAsString().c_str(), &__DATE__[7], __DATE__, __TIME__);
+        Name(), VersionAsString().c_str(), &__DATE__[7], __DATE__, __TIME__,
+        Name());
 
     return true;
   }
