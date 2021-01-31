@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "samp-ptl/ptl.h"
+#include "cpptoml/include/cpptoml.h"
 
 #include "Pawn.Regex.inc"
 

@@ -32,6 +32,8 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
   int Version() { return PAWNREGEX_VERSION; }
 
   bool OnLoad() {
+    ReadConfig();
+
     RegisterNative<natives::Regex_New>("Regex_New");
     RegisterNative<natives::Regex_Delete>("Regex_Delete");
 
@@ -49,8 +51,35 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
   }
 
   void OnUnload() {
+    SaveConfig();
+
     Log("plugin v%s by katursis unloaded", VersionAsString().c_str());
   }
+
+  void ReadConfig() {
+    std::fstream{config_path_, std::fstream::out | std::fstream::app};
+
+    const auto config = cpptoml::parse_file(config_path_);
+
+    locale_ =
+        std::locale{config->get_as<std::string>("LocaleName").value_or("C")};
+  }
+
+  void SaveConfig() {
+    auto config = cpptoml::make_table();
+
+    config->insert("LocaleName", locale_.name());
+
+    std::fstream{config_path_, std::fstream::out | std::fstream::trunc}
+        << (*config);
+  }
+
+  const std::locale &GetLocale() const { return locale_; }
+
+ private:
+  const std::string config_path_ = "plugins/pawnregex.cfg";
+
+  std::locale locale_;
 };
 
 #endif  // PAWNREGEX_PLUGIN_H_

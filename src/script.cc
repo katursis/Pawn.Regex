@@ -26,7 +26,11 @@
 
 cell Script::NewRegex(const std::string &pattern,
                       std::regex_constants::syntax_option_type option) {
-  const auto regex = std::make_shared<std::regex>(pattern, option);
+  const auto regex = std::make_shared<std::regex>();
+
+  regex->imbue(Plugin::Instance().GetLocale());
+
+  regex->assign(pattern, option);
 
   regexes_.insert(regex);
 
