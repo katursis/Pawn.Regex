@@ -38,7 +38,6 @@
 
 #include "script.h"
 #include "cell.h"
-#include "natives.h"
 #include "plugin.h"
 
 #endif  // PAWNREGEX_MAIN_H_

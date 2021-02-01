@@ -46,6 +46,41 @@ class Script : public ptl::AbstractScript<Script> {
       E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar);
   std::regex_constants::match_flag_type GetMatchFlag(E_MATCH_FLAG flags);
 
+  // native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
+  // E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
+  cell Regex_New(std::string pattern, E_REGEX_FLAG flags,
+                 E_REGEX_GRAMMAR grammar);
+
+  // native Regex_Delete(&Regex:r);
+  cell Regex_Delete(cell *regex);
+
+  // native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags =
+  // MATCH_DEFAULT);
+  cell Regex_Check(std::string str, RegexPtr regex, E_MATCH_FLAG flags);
+
+  // native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags
+  // = MATCH_DEFAULT);
+  cell Regex_Match(std::string str, RegexPtr regex, cell *match_results,
+                   E_MATCH_FLAG flags);
+
+  // native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos =
+  // 0, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+  cell Regex_Search(std::string str, RegexPtr regex, cell *match_results,
+                    cell *pos, cell startpos, E_MATCH_FLAG flags);
+
+  // native Regex_Replace(const str[], Regex:r, const fmt[], dest[],
+  // E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
+  cell Regex_Replace(std::string str, RegexPtr regex, std::string fmt,
+                     cell *dest, E_MATCH_FLAG flags, cell size);
+
+  // native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof
+  // dest);
+  cell Match_GetGroup(MatchResultsPtr match_results, cell index, cell *dest,
+                      cell *length, cell size);
+
+  // native Match_Free(&RegexMatch:m);
+  cell Match_Free(cell *match_results);
+
  private:
   std::unordered_set<RegexPtr> regexes_;
   std::unordered_set<MatchResultsPtr> match_results_;

@@ -34,16 +34,16 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
   bool OnLoad() {
     ReadConfig();
 
-    RegisterNative<natives::Regex_New>("Regex_New");
-    RegisterNative<natives::Regex_Delete>("Regex_Delete");
+    RegisterNative<&Script::Regex_New>("Regex_New");
+    RegisterNative<&Script::Regex_Delete>("Regex_Delete");
 
-    RegisterNative<natives::Regex_Check>("Regex_Check");
-    RegisterNative<natives::Regex_Match>("Regex_Match");
-    RegisterNative<natives::Regex_Search>("Regex_Search");
-    RegisterNative<natives::Regex_Replace>("Regex_Replace");
+    RegisterNative<&Script::Regex_Check>("Regex_Check");
+    RegisterNative<&Script::Regex_Match>("Regex_Match");
+    RegisterNative<&Script::Regex_Search>("Regex_Search");
+    RegisterNative<&Script::Regex_Replace>("Regex_Replace");
 
-    RegisterNative<natives::Match_GetGroup>("Match_GetGroup");
-    RegisterNative<natives::Match_Free>("Match_Free");
+    RegisterNative<&Script::Match_GetGroup>("Match_GetGroup");
+    RegisterNative<&Script::Match_Free>("Match_Free");
 
     Log("\n\n"
         "    | %s %s | 2016 - %s"
