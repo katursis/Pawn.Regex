@@ -21,7 +21,7 @@ native Match_Free(&RegexMatch:m);
 ```pawn
 #include <Pawn.Regex>
 
-stock IsRpNickname(nickname[])
+stock IsRpNickname(const nickname[])
 {
     new Regex:r = Regex_New("[A-Z][a-z]+_[A-Z][a-z]+");
 
@@ -32,7 +32,7 @@ stock IsRpNickname(nickname[])
     return check;
 }
 
-stock IsValidEmail(email[])
+stock IsValidEmail(const email[])
 {
     new Regex:r = Regex_New("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     
