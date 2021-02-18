@@ -32,7 +32,7 @@ stock IsRpNickname(nickname[])
     return check;
 }
 
-stock IsValidEmail(const email[])
+stock IsValidEmail(email[])
 {
     new Regex:r = Regex_New("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     
