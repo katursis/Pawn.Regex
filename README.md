@@ -32,6 +32,17 @@ stock IsRpNickname(nickname[])
     return check;
 }
 
+stock IsValidEmail(const email[])
+{
+    new Regex:r = Regex_New("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    
+    new check = Regex_Check(email, r);
+    
+    Regex_Delete(r);
+    
+    return check;
+}
+
 public OnPlayerCommandText(playerid, cmdtext[])
 {
     new
