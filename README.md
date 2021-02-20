@@ -21,7 +21,7 @@ native Match_Free(&RegexMatch:m);
 ```pawn
 #include <Pawn.Regex>
 
-stock IsRpNickname(nickname[])
+stock IsRpNickname(const nickname[])
 {
     new Regex:r = Regex_New("[A-Z][a-z]+_[A-Z][a-z]+");
 
@@ -29,6 +29,17 @@ stock IsRpNickname(nickname[])
 
     Regex_Delete(r);
 
+    return check;
+}
+
+stock IsValidEmail(const email[])
+{
+    new Regex:r = Regex_New("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    
+    new check = Regex_Check(email, r);
+    
+    Regex_Delete(r);
+    
     return check;
 }
 
@@ -109,6 +120,6 @@ main()
     OnPlayerCommandText(-1, "/ban 42");
     OnPlayerCommandText(-1, "/kill");
 
-    printf("%d %d", IsRpNickname("Firstname_Lastname"), IsRpNickname("katursis"));
+    printf("%d %d %d %d", IsRpNickname("Firstname_Lastname"), IsRpNickname("katursis"), IsValidEmail("katursis@example.com"), IsValidEmail("email.example.com"));
 }
 ```
