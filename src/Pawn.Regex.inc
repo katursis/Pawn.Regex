@@ -26,7 +26,7 @@
     #define PAWNREGEX_INC_
     #define _pawnregex_included // backward compatibility
 
-    #define PAWNREGEX_VERSION 120
+    #define PAWNREGEX_VERSION 121
     #define PAWNREGEX_INCLUDE_VERSION PAWNREGEX_VERSION // backward compatibility
 
     enum E_REGEX_GRAMMAR
