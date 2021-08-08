@@ -37,7 +37,7 @@
 #include "Pawn.Regex.inc"
 
 #include "script.h"
-#include "cell.h"
+#include "native_param.h"
 #include "plugin.h"
 
 #endif  // PAWNREGEX_MAIN_H_

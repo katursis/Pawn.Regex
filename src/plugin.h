@@ -25,7 +25,7 @@
 #ifndef PAWNREGEX_PLUGIN_H_
 #define PAWNREGEX_PLUGIN_H_
 
-class Plugin : public ptl::AbstractPlugin<Plugin, Script, Cell> {
+class Plugin : public ptl::AbstractPlugin<Plugin, Script, NativeParam> {
  public:
   const char *Name() { return "Pawn.Regex"; }
 

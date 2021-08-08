@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
-#ifndef PAWNREGEX_CELL_H_
-#define PAWNREGEX_CELL_H_
+#ifndef PAWNREGEX_NATIVE_PARAM_H_
+#define PAWNREGEX_NATIVE_PARAM_H_
 
-class Cell : public Script::Cell {
- public:
-  operator E_REGEX_FLAG() { return static_cast<E_REGEX_FLAG>(amx_addr_); }
+struct NativeParam : Script::NativeParam {
+  operator E_REGEX_FLAG() { return static_cast<E_REGEX_FLAG>(raw_value); }
 
-  operator E_REGEX_GRAMMAR() { return static_cast<E_REGEX_GRAMMAR>(amx_addr_); }
+  operator E_REGEX_GRAMMAR() { return static_cast<E_REGEX_GRAMMAR>(raw_value); }
 
-  operator E_MATCH_FLAG() { return static_cast<E_MATCH_FLAG>(amx_addr_); };
+  operator E_MATCH_FLAG() { return static_cast<E_MATCH_FLAG>(raw_value); };
 
-  operator RegexPtr() { return script_->GetRegex(amx_addr_); }
+  operator RegexPtr() { return script.GetRegex(raw_value); }
 
-  operator MatchResultsPtr() { return script_->GetMatchResults(amx_addr_); };
+  operator MatchResultsPtr() { return script.GetMatchResults(raw_value); };
 };
 
-#endif  // PAWNREGEX_CELL_H_
+#endif  // PAWNREGEX_NATIVE_PARAM_H_
