@@ -24,6 +24,92 @@
 
 #include "main.h"
 
+// native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
+// E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
+cell Script::Regex_New(std::string pattern, E_REGEX_FLAG flags,
+                       E_REGEX_GRAMMAR grammar) {
+  return NewRegex(pattern, GetRegexFlag(flags, grammar));
+}
+
+// native Regex_Delete(&Regex:r);
+cell Script::Regex_Delete(cell *regex) {
+  DeleteRegex(*regex);
+
+  *regex = 0;
+
+  return 1;
+}
+
+// native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
+cell Script::Regex_Check(std::string str, RegexPtr regex, E_MATCH_FLAG flags) {
+  return std::regex_match(str, *regex, GetMatchFlag(flags)) ? 1 : 0;
+}
+
+// native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags =
+// MATCH_DEFAULT);
+cell Script::Regex_Match(std::string str, RegexPtr regex, cell *match_results,
+                         E_MATCH_FLAG flags) {
+  std::smatch results;
+  if (std::regex_match(str, results, *regex, GetMatchFlag(flags))) {
+    *match_results = NewMatchResults(results);
+
+    return 1;
+  }
+
+  return 0;
+}
+
+// native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos = 0,
+// E_MATCH_FLAG:flags = MATCH_DEFAULT);
+cell Script::Regex_Search(std::string str, RegexPtr regex, cell *match_results,
+                          cell *pos, cell startpos, E_MATCH_FLAG flags) {
+  str = str.substr(startpos);
+
+  std::smatch results;
+  if (std::regex_search(str, results, *regex, GetMatchFlag(flags))) {
+    *match_results = NewMatchResults(results);
+
+    *pos = results.position();
+
+    return 1;
+  }
+
+  return 0;
+}
+
+// native Regex_Replace(const str[], Regex:r, const fmt[], dest[],
+// E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
+cell Script::Regex_Replace(std::string str, RegexPtr regex, std::string fmt,
+                           cell *dest, E_MATCH_FLAG flags, cell size) {
+  const auto result = std::regex_replace(str, *regex, fmt, GetMatchFlag(flags));
+
+  SetString(dest, result, size);
+
+  return 1;
+}
+
+// native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof
+// dest);
+cell Script::Match_GetGroup(MatchResultsPtr match_results, cell index,
+                            cell *dest, cell *length, cell size) {
+  const auto str = match_results->at(index);
+
+  SetString(dest, str, size);
+
+  *length = str.length();
+
+  return 1;
+}
+
+// native Match_Free(&RegexMatch:m);
+cell Script::Match_Free(cell *match_results) {
+  DeleteMatchResults(*match_results);
+
+  *match_results = 0;
+
+  return 1;
+}
+
 cell Script::NewRegex(const std::string &pattern,
                       std::regex_constants::syntax_option_type option) {
   const auto regex = std::make_shared<std::regex>();
@@ -142,90 +228,4 @@ std::regex_constants::match_flag_type Script::GetMatchFlag(E_MATCH_FLAG flags) {
   }
 
   return flag;
-}
-
-// native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
-// E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
-cell Script::Regex_New(std::string pattern, E_REGEX_FLAG flags,
-                       E_REGEX_GRAMMAR grammar) {
-  return NewRegex(pattern, GetRegexFlag(flags, grammar));
-}
-
-// native Regex_Delete(&Regex:r);
-cell Script::Regex_Delete(cell *regex) {
-  DeleteRegex(*regex);
-
-  *regex = 0;
-
-  return 1;
-}
-
-// native Regex_Check(const str[], Regex:r, E_MATCH_FLAG:flags = MATCH_DEFAULT);
-cell Script::Regex_Check(std::string str, RegexPtr regex, E_MATCH_FLAG flags) {
-  return std::regex_match(str, *regex, GetMatchFlag(flags)) ? 1 : 0;
-}
-
-// native Regex_Match(const str[], Regex:r, &RegexMatch:m, E_MATCH_FLAG:flags =
-// MATCH_DEFAULT);
-cell Script::Regex_Match(std::string str, RegexPtr regex, cell *match_results,
-                         E_MATCH_FLAG flags) {
-  std::smatch results;
-  if (std::regex_match(str, results, *regex, GetMatchFlag(flags))) {
-    *match_results = NewMatchResults(results);
-
-    return 1;
-  }
-
-  return 0;
-}
-
-// native Regex_Search(const str[], Regex:r, &RegexMatch:m, &pos, startpos = 0,
-// E_MATCH_FLAG:flags = MATCH_DEFAULT);
-cell Script::Regex_Search(std::string str, RegexPtr regex, cell *match_results,
-                          cell *pos, cell startpos, E_MATCH_FLAG flags) {
-  str = str.substr(startpos);
-
-  std::smatch results;
-  if (std::regex_search(str, results, *regex, GetMatchFlag(flags))) {
-    *match_results = NewMatchResults(results);
-
-    *pos = results.position();
-
-    return 1;
-  }
-
-  return 0;
-}
-
-// native Regex_Replace(const str[], Regex:r, const fmt[], dest[],
-// E_MATCH_FLAG:flags = MATCH_DEFAULT, size = sizeof dest);
-cell Script::Regex_Replace(std::string str, RegexPtr regex, std::string fmt,
-                           cell *dest, E_MATCH_FLAG flags, cell size) {
-  const auto result = std::regex_replace(str, *regex, fmt, GetMatchFlag(flags));
-
-  SetString(dest, result, size);
-
-  return 1;
-}
-
-// native Match_GetGroup(RegexMatch:m, index, dest[], &length, size = sizeof
-// dest);
-cell Script::Match_GetGroup(MatchResultsPtr match_results, cell index,
-                            cell *dest, cell *length, cell size) {
-  const auto str = match_results->at(index);
-
-  SetString(dest, str, size);
-
-  *length = str.length();
-
-  return 1;
-}
-
-// native Match_Free(&RegexMatch:m);
-cell Script::Match_Free(cell *match_results) {
-  DeleteMatchResults(*match_results);
-
-  *match_results = 0;
-
-  return 1;
 }

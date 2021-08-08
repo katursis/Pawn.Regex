@@ -33,19 +33,6 @@ class Script : public ptl::AbstractScript<Script> {
  public:
   const char *VarVersion() { return "_pawnregex_version"; }
 
-  cell NewRegex(const std::string &pattern,
-                std::regex_constants::syntax_option_type option);
-  const RegexPtr &GetRegex(cell ptr);
-  void DeleteRegex(cell regex);
-
-  cell NewMatchResults(const std::smatch &match);
-  const MatchResultsPtr &GetMatchResults(cell ptr);
-  void DeleteMatchResults(cell match_results);
-
-  std::regex_constants::syntax_option_type GetRegexFlag(
-      E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar);
-  std::regex_constants::match_flag_type GetMatchFlag(E_MATCH_FLAG flags);
-
   // native Regex:Regex_New(const pattern[], E_REGEX_FLAG:flags = REGEX_DEFAULT,
   // E_REGEX_GRAMMAR:grammar = REGEX_ECMASCRIPT);
   cell Regex_New(std::string pattern, E_REGEX_FLAG flags,
@@ -80,6 +67,19 @@ class Script : public ptl::AbstractScript<Script> {
 
   // native Match_Free(&RegexMatch:m);
   cell Match_Free(cell *match_results);
+
+  cell NewRegex(const std::string &pattern,
+                std::regex_constants::syntax_option_type option);
+  const RegexPtr &GetRegex(cell ptr);
+  void DeleteRegex(cell regex);
+
+  cell NewMatchResults(const std::smatch &match);
+  const MatchResultsPtr &GetMatchResults(cell ptr);
+  void DeleteMatchResults(cell match_results);
+
+  std::regex_constants::syntax_option_type GetRegexFlag(
+      E_REGEX_FLAG flags, E_REGEX_GRAMMAR grammar);
+  std::regex_constants::match_flag_type GetMatchFlag(E_MATCH_FLAG flags);
 
  private:
   std::unordered_set<RegexPtr> regexes_;
