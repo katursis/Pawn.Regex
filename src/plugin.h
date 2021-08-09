@@ -31,62 +31,13 @@ class Plugin : public ptl::AbstractPlugin<Plugin, Script, NativeParam> {
 
   int Version() { return PAWNREGEX_VERSION; }
 
-  bool OnLoad() {
-    ReadConfig();
+  bool OnLoad();
 
-    RegisterNative<&Script::Regex_New>("Regex_New");
-    RegisterNative<&Script::Regex_Delete>("Regex_Delete");
+  void OnUnload();
 
-    RegisterNative<&Script::Regex_Check>("Regex_Check");
-    RegisterNative<&Script::Regex_Match>("Regex_Match");
-    RegisterNative<&Script::Regex_Search>("Regex_Search");
-    RegisterNative<&Script::Regex_Replace>("Regex_Replace");
+  void ReadConfig();
 
-    RegisterNative<&Script::Match_GetGroup>("Match_GetGroup");
-    RegisterNative<&Script::Match_Free>("Match_Free");
-
-    Log("\n\n"
-        "    | %s %s | 2016 - %s"
-        "\n"
-        "    |--------------------------------"
-        "\n"
-        "    | Author and maintainer: katursis"
-        "\n\n\n"
-        "    | Compiled: %s at %s"
-        "\n"
-        "    |--------------------------------------------------------------"
-        "\n"
-        "    | Repository: https://github.com/katursis/%s"
-        "\n",
-        Name(), VersionAsString().c_str(), &__DATE__[7], __DATE__, __TIME__,
-        Name());
-
-    return true;
-  }
-
-  void OnUnload() {
-    SaveConfig();
-
-    Log("plugin unloaded");
-  }
-
-  void ReadConfig() {
-    std::fstream{config_path_, std::fstream::out | std::fstream::app};
-
-    const auto config = cpptoml::parse_file(config_path_);
-
-    locale_ =
-        std::locale{config->get_as<std::string>("LocaleName").value_or("C")};
-  }
-
-  void SaveConfig() {
-    auto config = cpptoml::make_table();
-
-    config->insert("LocaleName", locale_.name());
-
-    std::fstream{config_path_, std::fstream::out | std::fstream::trunc}
-        << (*config);
-  }
+  void SaveConfig();
 
   const std::locale &GetLocale() const { return locale_; }
 
