@@ -26,7 +26,11 @@
     #define PAWNREGEX_INC_
     #define _pawnregex_included // backward compatibility
 
-    #define PAWNREGEX_VERSION 121
+    #if !defined PACK_PLUGIN_VERSION
+        #define PACK_PLUGIN_VERSION(%0,%1,%2) (((%0) << 16) | ((%1) << 8) | (%2))
+    #endif
+
+    #define PAWNREGEX_VERSION PACK_PLUGIN_VERSION(1, 2, 1)
     #define PAWNREGEX_INCLUDE_VERSION PAWNREGEX_VERSION // backward compatibility
 
     enum E_REGEX_GRAMMAR
