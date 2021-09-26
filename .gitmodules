@@ -4,3 +4,6 @@
 [submodule "lib/cpptoml"]
 	path = lib/cpptoml
 	url = https://github.com/skystrife/cpptoml
+[submodule "cmake/modules"]
+	path = cmake/modules
+	url = https://github.com/katursis/samp-cmake-modules

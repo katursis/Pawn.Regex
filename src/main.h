@@ -25,8 +25,6 @@
 #ifndef PAWNREGEX_MAIN_H_
 #define PAWNREGEX_MAIN_H_
 
-#define _GLIBCXX_USE_CXX11_ABI 0 // For compatibility with samp03svr that was compiled with an older (< 5.1) version of GCC
-
 #include <regex>
 #include <unordered_set>
 #include <vector>
